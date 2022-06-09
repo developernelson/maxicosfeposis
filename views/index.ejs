@@ -1,0 +1,52 @@
+<%- include('partials/head', {title: "Maxico Srl - Posis 2.0"}) %>
+
+<body>
+    <div class="container">
+        <!-- menu de navegacion -->
+        <%- include('partials/navbar') %>
+
+        <!-- animacion de uploading -->
+        <%- include('partials/uploading', {imgUploading: 'uploading.gif'}) %>
+        
+        <!-- mensajes de informacion -->
+        <div class="message info color-info <%= (locals.msgType !== 'info') &&  'hidden'  %> ">
+            <div>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <p><%= locals.message %></p>
+            </div>
+            <i id="info" onclick="handleCloseMessage(this)" class="fa-solid fa-x"></i>
+        </div>
+        <div class="message success color-success <%= (locals.msgType !== 'success') &&  'hidden'  %> ">
+            <div>
+                <i class="fa-solid fa-circle-check "></i>
+                <p><%= locals.message %></p>
+            </div>
+            <i id="success" onclick="handleCloseMessage(this)" class="fa-solid fa-x"></i>
+        </div>
+        <div class="message danger color-danger <%= (locals.msgType !== 'danger') &&  'hidden'  %> ">
+            <div>
+                <i class="fa-solid fa-circle-xmark"></i>
+                <p><%= locals.message %></p>
+            </div>
+            <i id="danger" onclick="handleCloseMessage(this)" class="fa-solid fa-x"></i>
+        </div>
+        
+           
+    </div>
+
+    <script type="text/javascript" >
+
+    function handleCloseMessage (closeIcon){
+        document.querySelector(`.${closeIcon.id}`).classList.add('hidden');
+    }
+
+    function handleSendData() {
+        document.querySelector('.uploading').style.display = "block";
+    }
+
+    </script>
+</body>
+</html>
+
+
+
