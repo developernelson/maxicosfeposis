@@ -8,8 +8,7 @@ import { getInformado, getData, getInfoSequences } from './database/utils';
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { authorization } from './middleware/authorization'
 import { initialState } from './helpers/initialState';
-import { connectionDB } from './database/conectionDB';
-
+import { dbConnection } from './database/config';
 
 // creamos un servidor express
 const app = express();
@@ -39,7 +38,7 @@ app.set('port', process.env.PORT || 4000);
 app.listen(app.get('port'), async () => {
     console.log(`Server listen port: ${app.get('port')}`);
     await initialState();
-    connection = await connectionDB();
+    connection = await dbConnection();
     parametros = await getInformado(connection); // [{...}] o [] numero de secuencia, fecha, informado
 })
 
@@ -142,8 +141,11 @@ app.get('/send', async (req, res) => {
             resJson = await response.json();
         }
 
-        // respuesta del POST
-        console.log(resJson);
+        // resJson = {error: 'mansaje de error'} (Invalid Client)
+        if(resJson.error){
+            throw new Error(resJson.error);
+        }
+
         // obetengo el mensaje y el tipo de mensaje de la API
         message = getStatusMessage(resJson);
 
@@ -220,7 +222,7 @@ app.get('/logout', (req, res) => {
 app.get('/actualizar', authorization, async (req, res) => {
 
     await initialState();
-    connection = await connectionDB();
+    connection = await dbConnection();
     parametros = await getInformado(connection);
     res.redirect('/');
 

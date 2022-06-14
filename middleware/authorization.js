@@ -1,5 +1,4 @@
 
-import { redirect } from "express/lib/response";
 import { getAuth, updateProfile } from "firebase/auth";
 
 export function authorization(req, res, next) {

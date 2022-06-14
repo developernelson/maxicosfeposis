@@ -1,10 +1,10 @@
 import { getInformado } from '../database/utils';
-import { connectionDB } from '../database/conectionDB';
+import { dbConnection } from '../database/config';
 import moment from 'moment';
 
 // funcion que establece la informacion incial de la tabla info_secuencia (historial)
 export async function initialState() {
-    const connection = await connectionDB()
+    const connection = await dbConnection()
     const parametros = await getInformado(connection);
     let query = `select num_secuencia from info_secuencia where num_secuencia = ${parametros[0]?.NumSecuenciaP}`;
     const [result,] = await connection.execute(query);
