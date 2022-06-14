@@ -10,6 +10,7 @@ import { authorization } from './middleware/authorization'
 import { initialState } from './helpers/initialState';
 import { connectionDB } from './database/conectionDB';
 
+
 // creamos un servidor express
 const app = express();
 
@@ -83,11 +84,11 @@ app.get('/ventas', authorization, async (req, res) => {
 
 app.get('/stock', authorization, async (req, res) => {
 
-       const stock = await getData(connection, 'stock');
-       // total de articulos
-       const totalArrA = await connection.execute("select count(*) as totalA from stock where Informado = 'N'");
-       const {totalA}  = totalArrA[0][0];
-       return res.render('stock', { stock, totalA, informado: parametros[0]?.Informado, displayName });
+    const stock = await getData(connection, 'stock');
+    // total de articulos
+    const totalArrA = await connection.execute("select count(*) as totalA from stock where Informado = 'N'");
+    const { totalA } = totalArrA[0][0];
+    return res.render('stock', { stock, totalA, informado: parametros[0]?.Informado, displayName });
 
 });
 
@@ -109,23 +110,12 @@ app.get('/send', async (req, res) => {
         ])
 
 
-        // // Ventas
-        // const sales = await getData(connection, 'sales');
-        // if (sales.length === 0) {
-        //     message = 'No existen ventas para informar. Consulte con el administrador del sistema por favor.';
-        //     return res.render('index', { informado: parametros[0]?.Informado, message, msgType: 'danger', displayName });
-        // }
-
-        // // Clientes
-        // const customer = await getData(connection, 'customer');
-        // // elimino el campo Secuencia de los clientes
-        // customer.forEach(customer => delete customer.Secuencia);
-
-        // // Stock
-        // const stock = await getData(connection, 'stock');
-
         // especificacion de la API
         const data = { customer, sales, stock };
+
+        const numeroSecuencia = data.sales[0].sequenceNumber;
+
+        // fs.writeFileSync('data.json', JSON.stringify(data));
 
         // realizo el request a la API method POST
         const response = await fetch(process.env.URL_API_POST, {
@@ -134,12 +124,12 @@ app.get('/send', async (req, res) => {
             headers: {
                 'x-correlation-id': '39BDeF96-3309-e9a1-B9e9-B7Dc0D35768F',
                 'Content-Type': 'application/json',
-                'EZDCode': '0000128804',
+                'EZDCode': process.env.EZD_CODE,
                 'branchCode': '001',
-                'sequenceNumber': '10001',
+                'sequenceNumber': numeroSecuencia,
                 'Accept': '*/*',
-                'client_id': '771f07043a684620a951d051dbf3acc3',
-                'client_secret': '2B16C836D71f43138Fa4CFa30173A18E'
+                'client_id': process.env.CLIENT_ID,
+                'client_secret': process.env.CLIENT_SECRET
             },
         })
 
@@ -153,7 +143,7 @@ app.get('/send', async (req, res) => {
         }
 
         // respuesta del POST
-
+        console.log(resJson);
         // obetengo el mensaje y el tipo de mensaje de la API
         message = getStatusMessage(resJson);
 

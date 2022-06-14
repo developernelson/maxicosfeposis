@@ -18,9 +18,7 @@ export const getData = async (connection, nameTable, limit = 0) => {
             case 'sales':
                 return resData.filter(sale => {
                     delete sale.Informado;
-                    sale.POSCode = sale.POSCode.substring(6);
                     return sale;
-                                            
                 }).map(sale => (
                     {
                         ...sale,
@@ -31,7 +29,6 @@ export const getData = async (connection, nameTable, limit = 0) => {
             case 'stock':
                 return resData.filter(stk => {
                     delete stk.Informado;
-                    stk.shipToCode = '0000128620';
                     return stk
                 })
 
@@ -60,7 +57,7 @@ export const getInformado = async (connection) => {
 export const getInfoSequences = async (connection) => {
 
     // Ver y refactorizar
-    const query = 'SELECT * FROM info_secuencia LIMIT 10 ';
+    const query = 'SELECT * FROM info_secuencia ORDER BY num_secuencia DESC LIMIT 10 ';
     const [record,] = await connection.execute(query);
 
     if (record.length > 0) {

@@ -11,20 +11,19 @@ export const concatVisitFrecuency = (clients) => {
             visitFrequency5,
             visitFrequency6,
             visitFrequency7,
-            ...resto
+            ...rest
 
         } = client;
                
         const visitas = visitFrequency1 + visitFrequency2 + visitFrequency3 + visitFrequency4 + visitFrequency5 + visitFrequency6 + visitFrequency7;
         const reg1 = /1/g;
         const reg2 = /0/g;
-        resto.visitFrequency = visitas.replace(reg1, 'X').replace(reg2, ' ');
+        rest.visitFrequency = visitas.replace(reg1, 'X').replace(reg2, ' ');
         
         // ver corregir desde tabla
-        resto.streetNumber = Number(resto.streetNumber);
-        resto.POSCode = resto.POSCode.substring(6);
-        
-        return resto;
+        rest.streetNumber = Number(rest.streetNumber);
+       
+        return rest;
 
     })
 
