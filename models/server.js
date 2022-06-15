@@ -1,6 +1,10 @@
 const express = require('express');
 const cors = require('cors')
+
 import { firebase } from '../firebase/config-firebase';
+import { sequelizeConnection } from '../database/config-sequelize'
+
+
 
 let displayName = '';
 
@@ -21,9 +25,10 @@ export default class Server {
         this.middleware();
         this.routes();
 
+        // probando conexion a base de datos mysql
+        this.sequelize();
     }
     // End constructor
-
 
     setting() {
         this.app.set('port', process.env.PORT);
@@ -57,7 +62,11 @@ export default class Server {
         this.app.use(this.paths.auth, require('../routes/auth'));
         this.app.use(this.paths.data, require('../routes/data'));
         this.app.use(this.paths.noFound, require('../routes/noFound'));
-        
+
+    }
+
+    sequelize() {
+        sequelizeConnection();
     }
 
 
