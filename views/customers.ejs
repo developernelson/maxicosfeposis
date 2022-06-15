@@ -25,7 +25,7 @@
                        <thead><tr><th>Movimiento "M"</th></tr></thead>
                        <tbody><tr><td><%= customers.filter(cutomer => cutomer.movementCode === "M").length%></td></tr></tbody>
                        <thead><tr><th>Total Clientes</th></tr></thead>
-                       <tbody><tr><td><%= total%></td></tr></tbody>
+                       <tbody><tr><td><%= locals.total%></td></tr></tbody>
                     </table>
                  </div>
             <div class="div-table">
