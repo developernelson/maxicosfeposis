@@ -142,7 +142,7 @@ app.get('/send', async (req, res) => {
         }
 
         // resJson = {error: 'mansaje de error'} (Invalid Client)
-        if(resJson.error){
+        if (resJson.error) {
             throw new Error(resJson.error);
         }
 
@@ -204,8 +204,15 @@ app.post(
 // muestra el formulario de login
 app.get('/login', (req, res) => {
 
+    const auth = getAuth();
+    if (auth.currentUser) {
+        res.redirect('/');
+    } else {
+        res.render('login');
+    }
+
     // compruebo que no este logueado
-    res.render('login');
+
 })
 
 app.get('/logout', (req, res) => {
