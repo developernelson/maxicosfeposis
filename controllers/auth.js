@@ -5,11 +5,10 @@ export const authLogin = (req, res = response) => {
 
     const auth = getAuth();
     if (auth.currentUser) {
-       return res.redirect('/');
+        return res.redirect('/');
     }
 
     res.render('login');
-
 }
 
 export const authLogout = (req, res = response) => {

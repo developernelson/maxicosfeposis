@@ -2,17 +2,14 @@ export const formatSales = (sales) => {
 
     if (sales.length > 0) {
 
-        return sales.filter(sale => {
-            delete sale.Informado;
-            return sale;
-        }).map(sale => (
-            {
-                ...sale,
-                totalPacksAmount: Number(sale.totalPacksAmount),
-                documentNumber: Number(sale.documentNumber)
-            }))
-
-    } else {
-        return sales;
+        return sales.map(({dataValues}) => {
+            console.log(dataValues);
+            const { Informado, totalPacksAmount, documentNumber, ...rest } = dataValues;
+            rest.totalPacksAmount = Number(dataValues.totalPacksAmount);
+            rest.documentNumber = Number(dataValues.documentNumber);
+            return rest;
+        })
+    }else{
+        sales;
     }
 }
