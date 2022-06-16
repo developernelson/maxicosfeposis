@@ -11,7 +11,6 @@ export const getData = async (connection, nameTable, limit = 0) => {
     try {
 
         const [resData,] = await connection.execute(sqlQuery);
-
         switch (nameTable) {
             case 'customer':
                 return (resData.length > 0) ? concatVisitFrecuency(resData) : resData;

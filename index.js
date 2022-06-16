@@ -1,3 +1,4 @@
+const fs = require('fs');
 const express = require('express');
 const fetch = require('node-fetch');
 const { body, validationResult } = require('express-validator');
@@ -9,6 +10,7 @@ import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { authorization } from './middleware/authorization'
 import { initialState } from './helpers/initialState';
 import { dbConnection } from './database/config';
+import 'dotenv/config';
 
 // creamos un servidor express
 const app = express();
@@ -40,6 +42,7 @@ app.listen(app.get('port'), async () => {
     await initialState();
     connection = await dbConnection();
     parametros = await getInformado(connection); // [{...}] o [] numero de secuencia, fecha, informado
+
 })
 
 
@@ -60,7 +63,7 @@ app.get('/clientes', authorization, async (req, res) => {
 
         const customers = await getData(connection, 'customer');
         const total = customers.length;
-        return res.render('customers', { customers, total, informado: parametros[0]?.Informado, displayName });
+        return res.render('customers', { secuencia: parametros[0]?.NumSecuenciaP, customers, total, informado: parametros[0]?.Informado, displayName });
 
     } catch (error) {
         message = 'Error al consultar la Base de Datos. Vuelva a intentarlo en un momento'
@@ -109,14 +112,14 @@ app.get('/send', async (req, res) => {
         ])
 
 
-        // especificacion de la API
+        // // especificacion de la API
         const data = { customer, sales, stock };
-
         const numeroSecuencia = data.sales[0].sequenceNumber;
 
         // fs.writeFileSync('data.json', JSON.stringify(data));
 
-        // realizo el request a la API method POST
+
+        // // realizo el request a la API method POST
         const response = await fetch(process.env.URL_API_POST, {
             method: 'POST',
             body: JSON.stringify(data),
@@ -143,12 +146,12 @@ app.get('/send', async (req, res) => {
 
         // resJson = {error: 'mansaje de error'} (Invalid Client)
         if (resJson.error) {
+            console.log(resJson.error);
             throw new Error(resJson.error);
         }
 
         // obetengo el mensaje y el tipo de mensaje de la API
         message = getStatusMessage(resJson);
-
         if (message.msgType === 'success') {
             await connection.execute(`update customer set informado = 'S' where Secuencia = ${parametros[0]?.NumSecuenciaP}`)
             await connection.execute(`update sales set informado = 'S' where sequenceNumber = ${parametros[0]?.NumSecuenciaP}`)
@@ -163,7 +166,9 @@ app.get('/send', async (req, res) => {
         res.render('index', { informado: parametros[0]?.Informado, ...message, displayName });
 
     } catch (error) {
-        res.render('index', { informado: parametros[0]?.Informado, message: error.message, msgType: 'danger', displayName });
+        console.log(error);
+        res.render('index', {informado: parametros[0]?.Informado, message: error.message, msgType: 'danger', displayName });
+        
     }
 
 })

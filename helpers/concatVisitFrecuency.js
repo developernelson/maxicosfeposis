@@ -11,6 +11,7 @@ export const concatVisitFrecuency = (clients) => {
             visitFrequency5,
             visitFrequency6,
             visitFrequency7,
+            Secuencia,
             ...rest
 
         } = client;
