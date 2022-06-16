@@ -19,7 +19,7 @@
                     <table>
                       
                        <thead><tr><th>Secuencia</th></tr></thead>
-                       <tbody><tr><td><%= customers[0]?.Secuencia%></td></tr></tbody>
+                       <tbody><tr><td><%= locals.secuencia%></td></tr></tbody>
                        <thead><tr><th>Movimiento "A"</th></tr></thead>
                        <tbody><tr><td><%= customers.filter(cutomer => cutomer.movementCode === "A").length%></td></tr></tbody>
                        <thead><tr><th>Movimiento "B"</th></tr></thead>

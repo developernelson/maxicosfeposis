@@ -1,4 +1,5 @@
 import { formatCustomers } from "../database/formatCustomers";
+import { formatHistorial } from "../database/formatHistorial";
 import { formatSales } from "../database/formatSales";
 import { formatStock } from "../database/formatStock";
 import { Customer } from "../models/customer";
@@ -18,12 +19,13 @@ let msg = '';
 
 const intialState = async () => {
     cantClientes = await Customer.count({ where: { informado: 'N' } });
-    // secuencia = '';
+    secuencia = (await Parametro.findOne({attributes: ['NumSecuenciaP']}, {where: {informado: 'N' }})).dataValues.NumSecuenciaP;
     totalVentas = await Sale.sum('totalPacksAmount');
     cantFacturas = await Sale.count({ where: { informado: 'N' } });
     // msg = '';
 };
 
+// Inicializacion de variables globales
 intialState();
 
 // CLIENTES
@@ -31,8 +33,7 @@ export const clientes = async (req, res) => {
 
     const customersSinFormato = await Customer.findAll({ where: { informado: 'N' } });
     const customers = formatCustomers(customersSinFormato);
-    res.render('customers', { customers, displayName: req.displayName });
-
+    res.render('customers', { customers, secuencia, displayName: req.displayName });
 }
 
 
@@ -41,7 +42,7 @@ export const ventas = async (req, res) => {
 
     const salesSinFormato = await Sale.findAll({ where: { informado: 'N' } });
     const sales = formatSales(salesSinFormato);
-    res.render('sales', { sales, cantFacturas, totalVentas, displayName: req.displayName });
+    res.render('sales', { sales, secuencia,  cantFacturas, totalVentas, displayName: req.displayName });
 }
 
 
@@ -49,11 +50,16 @@ export const ventas = async (req, res) => {
 export const stock = async (req, res) => {
     const stockSinFormato = await Stock.findAll();
     const stock = formatStock(stockSinFormato);
-    res.render('stock', { stock, displayName: req.displayName });
+    res.render('stock', { stock, secuencia, displayName: req.displayName });
 }
 
-export const historial = (req, res) => {
-    res.redirect('/');
+export const historial = async (req, res) => {
+
+    const historialSinFormato = await Info_Secuencia.findAll();
+    const historial = formatHistorial(historialSinFormato);
+  
+    res.render('historial', {historial, displayName: req.displayName });
+
 }
 
 export const actualizar = async (req, res) => {
