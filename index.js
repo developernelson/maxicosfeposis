@@ -1,4 +1,4 @@
-const fs = require('fs');
+// const fs = require('fs');
 const express = require('express');
 const fetch = require('node-fetch');
 const { body, validationResult } = require('express-validator');
