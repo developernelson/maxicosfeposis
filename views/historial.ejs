@@ -22,6 +22,7 @@
                           <th>Clientes</th>
                           <th>Cantidad de atados</th>
                           <th>Monto ventas</th>
+                          <th>Cantidad de facturas</th>
                           <th>Informado</th>
                         </tr>
                     </thead>
@@ -33,6 +34,7 @@
                             <td><%= historial[i].cant_clientes %></td>
                             <td><%= historial[i].cant_paquetes %></td>
                             <td><%= historial[i].monto_venta %></td>
+                            <td><%= historial[i].cant_facturas %></td>
                             <td class=<%= (historial[i].informado === 'NO') && 'no-informado'  %> ><%= historial[i].informado %></td>
                         </tr>
                         <% } %>

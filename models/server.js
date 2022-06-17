@@ -4,10 +4,6 @@ const cors = require('cors')
 import { firebase } from '../firebase/config-firebase';
 import { sequelizeConnection } from '../database/config-sequelize'
 
-
-
-let displayName = '';
-
 export default class Server {
     constructor() {
         this.app = express();
@@ -31,7 +27,7 @@ export default class Server {
     // End constructor
 
     setting() {
-        this.app.set('port', process.env.PORT);
+        this.app.set('port', process.env.PORT || 4000);
     }
 
     listen() {

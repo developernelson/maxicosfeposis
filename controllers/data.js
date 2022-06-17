@@ -10,18 +10,38 @@ import { Stock } from "../models/stock";
 
 
 // Variables de Scope
-
 let cantClientes = '';
 let secuencia = '';
 let totalVentas = '';
 let cantFacturas = '';
+let cantPaquetes = '';
+let fechaSecuencia = '';
 let msg = '';
 
 const intialState = async () => {
+    const { NumSecuenciaP, FechaSecuenciaP } = (await Parametro.findOne()).dataValues;
+    secuencia = NumSecuenciaP;
+    fechaSecuencia = FechaSecuenciaP
     cantClientes = await Customer.count({ where: { informado: 'N' } });
-    secuencia = (await Parametro.findOne({attributes: ['NumSecuenciaP']}, {where: {informado: 'N' }})).dataValues.NumSecuenciaP;
-    totalVentas = await Sale.sum('totalPacksAmount');
+    totalVentas = await Sale.sum('totalPacksAmount', { informado: 'N' });
     cantFacturas = await Sale.count({ where: { informado: 'N' } });
+    cantPaquetes = await Sale.sum('quantityOfPacks', { where: { informado: 'N' } });
+
+    const existeEnInfoSecuencia = await Info_Secuencia.findOne({ where: { num_secuencia: secuencia } });
+    if (!existeEnInfoSecuencia) { // si no existe en la tabla
+        const nuevoHistorial = await Info_Secuencia.create({
+            num_secuencia: secuencia,
+            fecha: fechaSecuencia,
+            informado: 'N',
+            cant_clientes: cantClientes,
+            monto_venta: totalVentas,
+            cant_facturas: cantFacturas,
+            cant_paquetes: cantPaquetes
+        })
+        console.log(nuevoHistorial);
+    }
+
+
     // msg = '';
 };
 
@@ -42,7 +62,7 @@ export const ventas = async (req, res) => {
 
     const salesSinFormato = await Sale.findAll({ where: { informado: 'N' } });
     const sales = formatSales(salesSinFormato);
-    res.render('sales', { sales, secuencia,  cantFacturas, totalVentas, displayName: req.displayName });
+    res.render('sales', { sales, secuencia, cantPaquetes, cantFacturas, totalVentas, displayName: req.displayName });
 }
 
 
@@ -57,8 +77,8 @@ export const historial = async (req, res) => {
 
     const historialSinFormato = await Info_Secuencia.findAll();
     const historial = formatHistorial(historialSinFormato);
-  
-    res.render('historial', {historial, displayName: req.displayName });
+
+    res.render('historial', { historial, displayName: req.displayName });
 
 }
 
