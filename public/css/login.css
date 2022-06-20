@@ -127,3 +127,9 @@
   .errors {
     color: red
   }
+
+  .register a {
+    display: inline-block;
+    margin-left: 10px;
+    text-decoration: none;
+  }

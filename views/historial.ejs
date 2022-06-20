@@ -6,14 +6,14 @@
         <%- include('partials/navbar') %>
 
         <!-- animacion de uploading -->
-        <%- include('partials/uploading', {imgUploading: 'uploading.gif'}) %>
+        <%- include('partials/uploading') %>
         
         <div class="container__info stock animate__animated animate__fadeIn animate__faster">
             <div class = "title">
                 <h1>Historial</h1>
             <hr/>
             </div>
-            <div class="div-table">
+            <div class="div-table div-table_header">
                 <table >
                     <thead>
                         <tr >
@@ -22,18 +22,27 @@
                           <th>Clientes</th>
                           <th>Cantidad de atados</th>
                           <th>Monto ventas</th>
+                          <th>Cantidad de facturas</th>
                           <th>Informado</th>
+                          <th>Descarga</th>
+                          
                         </tr>
                     </thead>
                     <tbody>
-                        <% for( let i = 0; i < record.length; i++ ) { %>
+                        <% for( let i = 0; i < historial?.length; i++ ) { %>
                         <tr>
-                            <td><%= record[i].num_secuencia %> </td>
-                            <td><%= record[i].fecha %></td>
-                            <td><%= record[i].cant_clientes %></td>
-                            <td><%= record[i].cant_paquetes %></td>
-                            <td><%= record[i].monto_venta %></td>
-                            <td class=<%= (record[i].informado === 'NO') && 'no-informado'  %> ><%= record[i].informado %></td>
+                            <td><%= historial[i].num_secuencia %> </td>
+                            <td><%= historial[i].fecha %></td>
+                            <td><%= historial[i].cant_clientes %></td>
+                            <td><%= historial[i].cant_paquetes %></td>
+                            <td><%= '$ '+historial[i].monto_venta %></td>
+                            <td><%= historial[i].cant_facturas %></td>
+                            <td class=<%= (historial[i].informado === 'NO') && 'no-informado'  %> ><%= historial[i].informado %></td>
+                            <td>
+                                <a class="download <%= (historial[i].url_secuencia.length === 0) && 'no-active-a' %> " href=<%= historial[i].url_secuencia %>  title="Descarga archivo JSON">
+                                    <i class="fa-solid  fa-download"></i>
+                                </a>
+                            </td>
                         </tr>
                         <% } %>
                     </tbody>
