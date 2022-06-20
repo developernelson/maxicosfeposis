@@ -37,15 +37,10 @@ export const getStatusMessage = (resJson) => {
                 message = "Response code 415 mapped as Unsupported Media Type."
                 break;
             case 500:
-                // message = "Response code 500 mapped as Internal Server Error."
-                message = "Problema interno en el servidor de destino. Inténtelo nuevamente en un momento "
-                break;
-            case 502:
-                // message = "Response code 500 mapped as Internal Server Error."
-                message = "El servicio no esta disponible. Inténtelo nuevamente en unos segundos..."
+                message = "Problemas en el servidor de destino. Vuelva a intentarlo en un momento."
                 break;
             case 503:
-                message = "El servicio no esta disponible. Inténtelo nuevamente en unos segundos..."
+                message = "El servicio no esta disponible. Vuelva a intentarlo en un momento."
                 // message = "Response code 503 mapped as Service Unavailable."
                 break;
             case 504:
@@ -62,12 +57,7 @@ export const getStatusMessage = (resJson) => {
         } else {
             msgType = "success";
         }
-
-    } else {
-        message = resJson.error;
-        msgType = "danger";
-    }
-
+    } 
 
     return { message, msgType }
 }

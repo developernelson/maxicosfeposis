@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../login.css"/>
+    <link rel="stylesheet" href="../css/login.css"/>
     <title>Maxico Posis 2.0 / Login</title>
 </head>
 <body>
@@ -12,11 +12,11 @@
         <div class="login-container">
           <div class="register">
             <h2>Bienvenid@</h2>
-
             <form action="/auth/login" method="post">
               <input  name="correo" type="email" placeholder="Correo" class="correo" value="<%= locals.correo %>">
               <input  name="contraseña" type="password" placeholder="Contraseña" class="pass" value="<%= locals.contraseña %>">
               <input type="submit" class="submit" value="INGRESAR">
+              <a href="/auth/register">Register</a>
             </form>
             <ul>
               <% if(locals.errors) { %> 

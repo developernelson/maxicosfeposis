@@ -12,7 +12,7 @@ export const Info_Secuencia = sequelize.define('Info_Secuencia', {
     monto_venta: DataTypes.DECIMAL,
     cant_facturas: DataTypes.SMALLINT,
     cant_paquetes: DataTypes.MEDIUMINT,
-    
+    url_secuencia: DataTypes.STRING,
     
 }, {
     tableName: 'info_secuencia',

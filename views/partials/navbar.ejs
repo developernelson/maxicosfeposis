@@ -1,7 +1,7 @@
 <aside class="navbar__main ">
             <div class="navbar__div-logo">
                <a href="/" title="Home">
-                   <img class="navbar__img-logo" src="../logo_maxico.png" alt="logo_maxico" />
+                   <img class="navbar__img-logo" src="../img/logo_maxico.png" alt="logo_maxico" />
                </a> 
             </div>
       
@@ -50,7 +50,7 @@
                           <i class="fa-solid fa-right-from-bracket"></i>
                           <span>Salir</span> 
                       </a>
-                      <em class="display-name">(<%= locals.displayName %>)</em>  
+                      <em class="display-name">(<%= (locals.displayName) ? displayName : name  %>)</em>  
                   </li>
               </div>
             </div>
