@@ -129,6 +129,7 @@
   }
 
   .register a {
+    color: green;
     display: inline-block;
     margin-left: 10px;
     text-decoration: none;

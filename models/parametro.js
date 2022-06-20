@@ -17,7 +17,7 @@ export const Parametro = sequelize.define('Parametro', {
     Informado: DataTypes.STRING,
     
 }, {
-    tableName: 'parametros',
+    tableName: 'parametros2',
     timestamps: false
 
 });

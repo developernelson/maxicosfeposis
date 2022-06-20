@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-// require('dotenv').config();
+require('dotenv').config();
 
 const db = {
     host: process.env.HOST_NAME || "localhost",

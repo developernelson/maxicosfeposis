@@ -8,22 +8,14 @@
             <!-- animacion de uploading -->
             <%- include('partials/uploading') %>
 
+              <!-- animacion de update data -->
+              <%- include('partials/update') %>
+
             <!-- mensajes de informacion -->
             <%- include('partials/message') %>
 
         </div>
-        <script type="text/javascript">
- 
-            function handleCloseMessage (closeIcon){
-      
-                document.querySelector('.message').classList.add('hidden');
-             }
-
-            function handleSendData() {
-                document.querySelector('.uploading').style.display = "block";
-             }
-   
-        </script>
+        <script type="text/javascript" src="/script/script.js"></script>
         
         <% if (locals.alert ) { %>
         <script>                   

@@ -8,27 +8,42 @@
             <div class="navbar__menu" >
                 <div class="navbar__menu-main">
                     <li id="clientes" class=" <%= (locals.customers) && 'active' %>  icons-menu">
-                        <a href="/data/clientes">
+                        <a 
+                        href="/data/clientes"
+                        onclick="handleUpdateData()"
+                        >
                             <i class="fa-solid fa-people-group"></i><span>Clientes</span> 
                         </a>
                     </li>
                     <li id="ventas" class=" <%= (locals.sales) && 'active' %> icons-menu">
-                        <a href="/data/ventas">
+                        <a 
+                        href="/data/ventas"
+                        onclick="handleUpdateData()"
+                        >
                             <i class="fa-solid fa-sack-dollar"></i><span>Ventas</span> 
                         </a>
                     </li>
                     <li id="stock"  class=" <%= (locals.stock) && 'active' %> icons-menu">
-                        <a href="/data/stock">
+                        <a 
+                        href="/data/stock"
+                        onclick="handleUpdateData()"
+                        >
                             <i class="fa-solid fa-boxes-stacked"></i><span>Stock</span> 
                         </a>
                     </li>
                     <li id="historial" class=" <%= (locals.history) && 'active' %> icons-menu">
-                        <a href="/data/historial">
+                        <a 
+                        href="/data/historial"
+                        onclick="handleUpdateData()"
+                        >
                             <i class="fa-solid fa-clipboard-list"></i><span>Historial</span> 
                         </a>
                     </li>
                     <li id="restablecer" class=" <%= (locals.restablecer) && 'active' %> icons-menu">
-                        <a href="/data/actualizar">
+                        <a 
+                        href="/data/actualizar"
+                        onclick="handleUpdateData()"
+                        >
                             <i class="fa-solid fa-arrows-rotate"></i><span>Actualizar</span> 
                         </a>
                     </li>

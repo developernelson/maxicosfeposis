@@ -39,7 +39,7 @@
                             <td><%= historial[i].cant_facturas %></td>
                             <td class=<%= (historial[i].informado === 'NO') && 'no-informado'  %> ><%= historial[i].informado %></td>
                             <td>
-                                <a class="download <%= (historial[i].url_secuencia.length === 0) && 'no-active-a' %> " href=<%= historial[i].url_secuencia %>  title="Descarga archivo JSON">
+                                <a class="download <%= (!historial[i].url_secuencia) && 'no-active-a' %> " href=<%= historial[i].url_secuencia %>  title="Descarga archivo JSON">
                                     <i class="fa-solid  fa-download"></i>
                                 </a>
                             </td>
