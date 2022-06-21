@@ -5,7 +5,6 @@ export function authentication(req, res, next) {
 
     const auth = getAuth();
     const user = auth.currentUser;
-
     if (!user) {
         return res.redirect('/auth/login');
     }
