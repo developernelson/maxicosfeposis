@@ -5,6 +5,7 @@ const { authentication } = require('../middleware/authentication');
 const { validarCampos } = require('../middleware/validar-campos');
 const router = new Router();
 
+
 router.get('/login', authLogin);
 
 router.post('/login', [
