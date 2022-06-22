@@ -96,13 +96,13 @@ export const historial = async (req, res = response) => {
 // ACTUALIZAR
 export const actualizar = async (req, res = response) => {
 
-    const { NumSecuenciaP } = (await Parametro.findOne()).dataValues;
+    // const { NumSecuenciaP } = (await Parametro.findOne()).dataValues;
 
-    await Parametro.update({ Informado: 'N' }, { where: { NumSecuenciaP } })
-    await Info_Secuencia.destroy({ where: { num_secuencia: NumSecuenciaP } })
-    await Customer.update({ Informado: 'N' }, { where: { secuencia: NumSecuenciaP } })
-    await Sale.update({ Informado: 'N' }, { where: { sequenceNumber: NumSecuenciaP } })
-    await Stock.update({ Informado: 'N' }, { where: { sequenceNumber: NumSecuenciaP } })
+    // await Parametro.update({ Informado: 'N' }, { where: { NumSecuenciaP } })
+    // await Info_Secuencia.destroy({ where: { num_secuencia: NumSecuenciaP } })
+    // await Customer.update({ Informado: 'N' }, { where: { secuencia: NumSecuenciaP } })
+    // await Sale.update({ Informado: 'N' }, { where: { sequenceNumber: NumSecuenciaP } })
+    // await Stock.update({ Informado: 'N' }, { where: { sequenceNumber: NumSecuenciaP } })
 
     await intialState();
     res.redirect('/');
