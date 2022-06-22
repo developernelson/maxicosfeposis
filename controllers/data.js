@@ -139,6 +139,8 @@ export const enviar = async (req, res = response) => {
         const response = await fetchDataPost(data, NumSecuenciaP);
         const result = await response.json();
 
+        console.log(result);        
+
         // Invalid Client 
         if (result.error) {
             throw new Error(result.error);
