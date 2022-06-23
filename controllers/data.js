@@ -81,7 +81,11 @@ export const historial = async (req, res = response) => {
     const displayName = req.displayName;
 
     try {
-        const historialSinFormato = await Info_Secuencia.findAll();
+        const historialSinFormato = await Info_Secuencia.findAll({
+            order: [
+                ['num_secuencia', 'DESC']
+            ]
+        });
         const historial = formatHistorial(historialSinFormato);
 
         res.render('historial', { historial, displayName });
@@ -139,7 +143,7 @@ export const enviar = async (req, res = response) => {
         const response = await fetchDataPost(data, NumSecuenciaP);
         const result = await response.json();
 
-        console.log(result);        
+        console.log(result);
 
         // Invalid Client 
         if (result.error) {
