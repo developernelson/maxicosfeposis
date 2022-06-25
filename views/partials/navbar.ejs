@@ -51,10 +51,10 @@
               <div class="navbar__menu-logout">
                   <li 
                       id="btnSendData" 
-                      class=" icons-menu-logout  <%= (locals.informado === 'S') ? 'disabled' : '' %> ">
+                      class=" icons-menu-logout">  <!-- <%= (locals.informado === 'S') ? 'disabled' : '' %>  -->
                       <a 
-                      href="/data/enviar"
-                      onclick="handleSendData()"
+                        href="/data/enviar"
+                        onclick="handleSendData()"
                       >
                           <i class="fa-solid fa-cloud-arrow-up"></i> <span>Enviar datos</span> 
                       </a>

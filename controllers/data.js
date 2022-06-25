@@ -1,19 +1,11 @@
-const fs = require("fs");
-import { formatCustomers } from "../database/formatCustomers";
-import { formatHistorial } from "../database/formatHistorial";
-import { formatSales } from "../database/formatSales";
-import { formatStock } from "../database/formatStock";
-import { fetchDataPost } from "../helpers/fetch";
-import { getStatusMessage } from "../helpers/getStatusMessage";
-import { Customer } from "../models/customer";
-import { Info_Secuencia } from "../models/info_secuencia";
-import { Parametro } from "../models/parametro";
-import { Sale } from "../models/sale";
-import { Stock } from "../models/stock";
-import { intialState } from "../helpers/initialState";
-import { fileUpload } from "../helpers/fileUpload";
 import { response } from "express";
+const fs = require("fs");
 
+import { Customer, Parametro, Info_Secuencia, Sale, Stock } from '../models'
+
+import { formatCustomers, formatHistorial, formatSales, formatStock } from '../database'
+
+import {fetchDataPost, getStatusMessage, intialState, fileUpload} from '../helpers'
 
 // CLIENTES
 export const clientes = async (req, res = response) => {
@@ -34,7 +26,6 @@ export const clientes = async (req, res = response) => {
     }
 
 }
-
 
 // VENTAS
 export const ventas = async (req, res = response) => {
@@ -96,7 +87,6 @@ export const historial = async (req, res = response) => {
     }
 }
 
-
 // ACTUALIZAR
 export const actualizar = async (req, res = response) => {
 
@@ -116,9 +106,10 @@ export const actualizar = async (req, res = response) => {
 export const enviar = async (req, res = response) => {
 
     const displayName = req.displayName;
-    let { Informado, NumSecuenciaP } = await Parametro.findOne();
+    let { NumSecuenciaP } = await Parametro.findOne();
+    let { informado } = await Info_Secuencia.findOne({ where: { num_secuencia: NumSecuenciaP } });
 
-    if (Informado === 'S') {
+    if (informado === 'S') {
         return res.redirect('/');
     }
 
