@@ -7,17 +7,20 @@ export const home = async (req, res) => {
 
     try {
 
-        const { num_secuencia, informado } = (await Info_Secuencia.findOne()).dataValues;
         let message = '';
-        (informado === 'N')
-            ? message = `La SECUENCIA N°: ${num_secuencia} está pendiente de enviar.`
-            : message = "No hay SECUENCIA pendiente de enviar.";
+        const dataSecuencia = await Info_Secuencia.findOne({ where: { informado: 'N' } });
+        if (dataSecuencia) {
+            const { num_secuencia } = dataSecuencia.dataValues;
+            message = `La SECUENCIA N°: ${num_secuencia} está pendiente de enviar.`
+        } else {
+            message = "No hay SECUENCIA pendiente de enviar.";
+        }
 
-        res.render('index', { informado, message, msgType: 'info', displayName, register, name });
+        res.render('index', {message, msgType: 'info', displayName, register, name });
 
     } catch (error) {
         console.log(error);
-        res.render('index', { informado, message: 'Ha ocurrido un problema al leer la base de datos. Consulte con el administrador.', msgType: 'danger', displayName, register, name });
+        res.render('index', {message: 'Ha ocurrido un problema al leer la base de datos. Consulte con el administrador.', msgType: 'danger', displayName, register, name });
     }
 
 

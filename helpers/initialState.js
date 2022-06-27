@@ -2,10 +2,7 @@
 
 // import moment from 'moment';
 
-import { Customer } from "../models/customer";
-import { Info_Secuencia } from "../models/info_secuencia";
-import { Parametro } from "../models/parametro";
-import { Sale } from "../models/sale";
+import { Customer, Info_Secuencia, Parametro, Sale } from "../models";
 
 export const intialState = async () => {
     const { NumSecuenciaP, FechaSecuenciaP } = (await Parametro.findOne()).dataValues;
