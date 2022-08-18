@@ -5,7 +5,7 @@ import { Customer, Parametro, Info_Secuencia, Sale, Stock } from '../models'
 
 import { formatCustomers, formatHistorial, formatSales, formatStock } from '../database'
 
-import {fetchDataPost, getStatusMessage, intialState, fileUpload} from '../helpers'
+import { fetchDataPost, getStatusMessage, intialState, fileUpload } from '../helpers'
 
 // CLIENTES
 export const clientes = async (req, res = response) => {
@@ -125,8 +125,9 @@ export const enviar = async (req, res = response) => {
         const sales = formatSales(salesSinFormato);
         const stock = formatStock(stockSinFormato);
 
+        // Genero el JSON segun documentacion de API
         const data = { customer, sales, stock };
-
+       
         // persisto el json y genero la url de descarga
         fileUpload(data, NumSecuenciaP.toString());
 
@@ -134,7 +135,6 @@ export const enviar = async (req, res = response) => {
         const response = await fetchDataPost(data, NumSecuenciaP);
         const result = await response.json();
 
-        console.log(result);
 
         // Invalid Client 
         if (result.error) {
