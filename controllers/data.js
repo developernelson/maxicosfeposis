@@ -121,20 +121,24 @@ export const enviar = async (req, res = response) => {
             Stock.findAll({ where: { informado: 'N' } })
         ])
 
+        // option = 1 identifica que a las ventas al valor de totalPacksAmount se le coloca un '-' al inicio de
+        // para que luego coincida con el patron de expresion regular y poder modificar el json
+        
         const customer = formatCustomers(customersSinFormato);
-        const sales = formatSales(salesSinFormato);
+        let sales = formatSales(salesSinFormato, 1);
         const stock = formatStock(stockSinFormato);
 
         // Genero el JSON segun documentacion de API
-        const data = { customer, sales, stock };
-       
-        // persisto el json y genero la url de descarga
-        fileUpload(data, NumSecuenciaP.toString());
+        let data = { customer, sales, stock };
 
         // Envio los datos de la secuencia y verifico la respuesta
         const response = await fetchDataPost(data, NumSecuenciaP);
         const result = await response.json();
 
+         // persisto el json y genero la url de descarga
+         sales = formatSales(salesSinFormato);
+         data = { customer, sales, stock };
+         fileUpload(data, NumSecuenciaP.toString());
 
         // Invalid Client 
         if (result.error) {
