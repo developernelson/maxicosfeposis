@@ -6,7 +6,7 @@ export const fetchDataPost = (data, numeroSecuencia) => {
 
     // proceso de sacar las comillas del json en el campo totalPacksAmount
     let data_json = JSON.stringify(data);
-    const regex = /"-(-|)([0-9]+(?:\.[0-9]+)?)"/g
+    const regex = /"_(-|)([0-9]+(?:\.[0-9]+)?)"/g
     data_json = data_json.replace(regex, '$1$2')
 
     return fetch(process.env.URL_API_POST, {

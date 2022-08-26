@@ -7,7 +7,7 @@ export const formatSales = (sales, option = 0) => {
             sales.map(({ dataValues }) => {
                 const { Informado, totalPacksAmount, documentNumber, ...rest } = dataValues;
                 // formato ejemplo string dos decimales '-178.00' el guion es agregado para que coincida con una expresion regular mas adelante
-                rest.totalPacksAmount = '-' + parseFloat(totalPacksAmount).toFixed(2);
+                rest.totalPacksAmount = '_' + parseFloat(totalPacksAmount).toFixed(2);
                 rest.documentNumber = Number(documentNumber);
                 return rest;
             })

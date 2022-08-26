@@ -2,7 +2,7 @@
 export const getStatusMessage = (resJson) => {
     let message = '';
     let msgType = '';
-
+    console.log(resJson);
     if (resJson.statusCode) {
 
         switch (resJson.statusCode) {
@@ -57,7 +57,7 @@ export const getStatusMessage = (resJson) => {
         } else {
             msgType = "success";
         }
-    } 
+    }
 
     return { message, msgType }
 }

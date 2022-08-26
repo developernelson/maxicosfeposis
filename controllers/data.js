@@ -123,7 +123,7 @@ export const enviar = async (req, res = response) => {
 
         // option = 1 identifica que a las ventas al valor de totalPacksAmount se le coloca un '-' al inicio de
         // para que luego coincida con el patron de expresion regular y poder modificar el json
-        
+
         const customer = formatCustomers(customersSinFormato);
         let sales = formatSales(salesSinFormato, 1);
         const stock = formatStock(stockSinFormato);
@@ -134,11 +134,6 @@ export const enviar = async (req, res = response) => {
         // Envio los datos de la secuencia y verifico la respuesta
         const response = await fetchDataPost(data, NumSecuenciaP);
         const result = await response.json();
-
-         // persisto el json y genero la url de descarga
-         sales = formatSales(salesSinFormato);
-         data = { customer, sales, stock };
-         fileUpload(data, NumSecuenciaP.toString());
 
         // Invalid Client 
         if (result.error) {
@@ -155,6 +150,11 @@ export const enviar = async (req, res = response) => {
             await Stock.update(set, where);
             await Parametro.update(set, where);
             await Info_Secuencia.update({ informado: 'S' }, { where: { informado: 'N' } });
+
+            // persisto el json y genero la url de descarga
+            sales = formatSales(salesSinFormato);
+            data = { customer, sales, stock };
+            fileUpload(data, NumSecuenciaP.toString());
 
             message.message = 'No hay SECUENCIA pendiente de enviar.'
             message.msgType = 'info'
