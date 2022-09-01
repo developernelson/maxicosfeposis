@@ -14,10 +14,10 @@ export const intialState = async () => {
             informado: 'N',
             cant_clientes: await Customer.count({ where: { informado: 'N' } }),
             monto_venta: await Sale.sum('totalPacksAmount', { where: { informado: 'N' } }) || 0,
-            cant_facturas: await Sale.count({ where: { informado: 'N' } }),
+            cant_facturas: await Sale.count({ where: { informado: 'N' } }) || 0,
             cant_paquetes: await Sale.sum('quantityOfPacks', { where: { informado: 'N' } }) || 0
         })
-       
+     
         await Customer.update({ secuencia: NumSecuenciaP }, { where: { informado: 'N' } })
     }
 
