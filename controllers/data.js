@@ -5,7 +5,7 @@ import { Customer, Parametro, Info_Secuencia, Sale, Stock } from '../models'
 
 import { formatCustomers, formatHistorial, formatSales, formatStock } from '../database'
 
-import { fetchDataPost, getStatusMessage, intialState, fileUpload } from '../helpers'
+import { fetchDataPost, getStatusMessage, intialState, getJson } from '../helpers'
 
 // CLIENTES
 export const clientes = async (req, res = response) => {
@@ -66,7 +66,7 @@ export const stock = async (req, res = response) => {
 
 }
 
-// HISTORIAL
+// HISTORIAL DE SECUENCIAS ENVIADAS
 export const historial = async (req, res = response) => {
 
     const displayName = req.displayName;
@@ -77,9 +77,11 @@ export const historial = async (req, res = response) => {
                 ['num_secuencia', 'DESC']
             ]
         });
+
         const historial = formatHistorial(historialSinFormato);
 
         res.render('historial', { historial, displayName });
+
 
     } catch (error) {
         console.log(error);
@@ -87,20 +89,37 @@ export const historial = async (req, res = response) => {
     }
 }
 
-// ACTUALIZAR
+// ACTUALIZAR/RECRAGAR SECUENCIA
 export const actualizar = async (req, res = response) => {
 
-    // const { NumSecuenciaP } = (await Parametro.findOne()).dataValues;
+    const { NumSecuenciaP,Informado } = (await Parametro.findOne()).dataValues;
 
-    // await Parametro.update({ Informado: 'N' }, { where: { NumSecuenciaP } })
-    // await Info_Secuencia.destroy({ where: { num_secuencia: NumSecuenciaP } })
-    // await Customer.update({ Informado: 'N' }, { where: { secuencia: NumSecuenciaP } })
-    // await Sale.update({ Informado: 'N' }, { where: { sequenceNumber: NumSecuenciaP } })
-    // await Stock.update({ Informado: 'N' }, { where: { sequenceNumber: NumSecuenciaP } })
+    if(Informado === 'N'){
+        await Info_Secuencia.destroy({where : {num_secuencia: NumSecuenciaP}})
+        await intialState();
+    }
 
-    await intialState();
     res.redirect('/');
 }
+
+// VISTA DE DESCARGAR SECUENCIA
+export const descargar = async (req, res = response) => {
+
+    const displayName = req.displayName;
+
+    res.render('descargar', { descargar: true,  displayName });
+
+}
+
+// DESCARGAR LA SECUENCIA
+export const secuencia = async (req, res = response) => {
+
+    const { nroSec } = req.query;
+    const json = await getJson(nroSec);
+    res.send(json);
+
+}
+
 
 // ENVIAR DATA
 export const enviar = async (req, res = response) => {
@@ -121,7 +140,7 @@ export const enviar = async (req, res = response) => {
             Stock.findAll({ where: { informado: 'N' } })
         ])
 
-        // option = 1 identifica que a las ventas al valor de totalPacksAmount se le coloca un '-' al inicio de
+        // option = 1 identifica que a las ventas al valor de totalPacksAmount se le coloca un '_' al inicio de
         // para que luego coincida con el patron de expresion regular y poder modificar el json
 
         const customer = formatCustomers(customersSinFormato);
@@ -130,6 +149,13 @@ export const enviar = async (req, res = response) => {
 
         // Genero el JSON segun documentacion de API
         let data = { customer, sales, stock };
+       
+        // Genero el archivo JSON jsonData.json
+        // let data_json = JSON.stringify(data);
+        // const regex = /"_(-|)([0-9]+(?:\.[0-9]+)?)"/g
+        // data_json = data_json.replace(regex, '$1$2')
+        // fileUpload(data_json, NumSecuenciaP.toString());
+        // fs.writeFileSync('jsonData.json', data_json );
 
         // Envio los datos de la secuencia y verifico la respuesta
         const response = await fetchDataPost(data, NumSecuenciaP);
@@ -152,9 +178,9 @@ export const enviar = async (req, res = response) => {
             await Info_Secuencia.update({ informado: 'S' }, { where: { informado: 'N' } });
 
             // persisto el json y genero la url de descarga
-            sales = formatSales(salesSinFormato);
-            data = { customer, sales, stock };
-            fileUpload(data, NumSecuenciaP.toString());
+            // sales = formatSales(salesSinFormato);
+            // data = { customer, sales, stock };
+            // fileUpload(data, NumSecuenciaP.toString());
 
             message.message = 'No hay SECUENCIA pendiente de enviar.'
             message.msgType = 'info'
@@ -163,12 +189,10 @@ export const enviar = async (req, res = response) => {
         }
 
         res.render('index', { ...message, displayName });
-
-
+        
     } catch (error) {
         console.log(error);
         res.render('index', { message: error.message, msgType: 'danger', displayName });
     }
 
 }
-
