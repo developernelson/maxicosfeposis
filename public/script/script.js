@@ -14,7 +14,12 @@ function handleUpdateData() {
 function getFile() {
    handleUpdateData();
    const nroSec = document.querySelector('.input-secuencia').value;
-   fetch(`https://maxicosfeposis.herokuapp.com/data/secuencia?nroSec=${nroSec}`)
+   
+   // obtengo la url del servidor donde se encuentra la aplicación desplegada
+   // Ejemplo: 'https://maxicosfeposis.heroku.org/data/'
+   const loc = window.location.href.split('descargar');
+  
+   fetch(`${loc[0]}/secuencia?nroSec=${nroSec}`)
       .then((response) => response.json())
       .then(json => {
          document.querySelector('.update').style.display = "none";
@@ -56,3 +61,5 @@ function enterPress(event) {
       document.querySelector('.btn-secuencia').focus()
    }
 }
+
+
